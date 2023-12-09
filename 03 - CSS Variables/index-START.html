@@ -34,6 +34,10 @@
       font-family: 'helvetica neue', sans-serif;
       font-weight: 100;
       font-size: 50px;
+
+      --spacing: 0;
+      --blur: 0;
+      --base: #ffc600;
     }
 
     .controls {
@@ -41,11 +45,25 @@
     }
 
     input {
-      width: 100px;
+      width: 100px; 
+    }
+    img {
+      
+      filter: blur(var(--blur));
+      border: var(--spacing) solid var(--base);
     }
   </style>
 
   <script>
+    const configElems = document.querySelectorAll(".controls input");
+    // const bodyElem = document.querySelector("body");
+    
+    function handleChange(event) {
+      const target = event.target;
+      document.body.style.setProperty(`--${target.name}`, `${target.value}${target.dataset.sizing || ''}`);
+    }
+    configElems.forEach(configElem => configElem.addEventListener('change', handleChange));
+    
   </script>
 
 </body>
