@@ -73,7 +73,6 @@
   function removeStyle(event) {
     if(event.propertyName !== "transform") return;
     event.target.classList.remove("playing");
-
   }
   const kyes = Array.from(document.querySelectorAll(".keys"));
   kyes.forEach(key => key.addEventListener('transitionend', removeStyle));

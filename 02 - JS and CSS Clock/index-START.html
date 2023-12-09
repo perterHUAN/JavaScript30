@@ -63,13 +63,35 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: right center;
     }
 
   </style>
 
   <script>
+      const hourElem = document.querySelector('.hour-hand');
+      const minElem = document.querySelector('.min-hand');
+      const secondElem = document.querySelector('.second-hand');
 
 
+
+      function updateTime() {
+        const now = new Date();
+        const hour = now.getHours(); // 24
+        const min = now.getMinutes();
+        const sec = now.getSeconds();
+
+        const rotateHour = (hour % 12) * (360 / 12) + min * (360 / 12 / 60) + 90;
+        const rotateMin = min * (360 / 60)   + sec * (360 / 60 / 60) + 90;
+        const rotateSec = sec * (360 / 60) + 90;
+
+
+        hourElem.style.transform = `rotate(${rotateHour}deg)`;
+        minElem.style.transform = `rotate(${rotateMin}deg)`;
+        secondElem.style.transform = `rotate(${rotateSec}deg)`;
+      }
+      setInterval(updateTime, 1000);
+      updateTime();
   </script>
 </body>
 </html>
