@@ -13,8 +13,64 @@
 <style>
   html, body {
     margin: 0;
+    padding: 0;
   }
 </style>
+<script>
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  // 设置颜色和线宽
+  ctx.fillStyle = '#BADA55';
+  ctx.lineWidth = 100;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+
+  let direction = true,
+    lastX = 0,
+    lastY = 0,
+    hue = 0,
+    isDrawing = false;
+  
+  // isDrawing 当前是否应该绘制
+  function handleMove(event) {
+    if(!isDrawing) return;
+    draw(event);
+  }
+  function draw(event) {
+    ctx.strokeStyle = `hsl(${hue}deg 100% 50%)`;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+
+    // 为下一次绘制做准备
+    lastX = event.offsetX;
+    lastY = event.offsetY;
+
+    if(hue++ > 360) hue = 0;
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    }
+    if(direction) {
+      ctx.lineWidth++;
+    }else {
+      ctx.lineWidth--;
+    }
+  }
+
+  canvas.addEventListener("mousedown", (event) => {
+    isDrawing = true;
+    lastX = event.offsetX;
+    lastY = event.offsetY;
+  });
+
+  canvas.addEventListener('mouseup', () => isDrawing= false);
+
+  canvas.addEventListener('mousemove', handleMove);
+</script>
 
 </body>
 </html>
