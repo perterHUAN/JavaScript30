@@ -38,6 +38,8 @@
 
     input[type="checkbox"] {
       margin: 20px;
+      width: 20px;
+      height: 20px;
     }
 
     p {
@@ -97,6 +99,19 @@
   </div>
 
 <script>
+  let lastClickIndex = 0;
+  function handeRangeSelect(event) {
+    const curIndex = checkElems.findIndex(e => e === event.target);
+    if(event.shiftKey && this.checked) {
+      const from = Math.min(lastClickIndex, curIndex),
+        to = Math.max(lastClickIndex, curIndex);
+      console.log(from, to);
+      checkElems.forEach((checkElem, idx) => idx >= from && idx <= to && (checkElem.checked = true));
+    }
+    lastClickIndex = curIndex;
+  }
+  const checkElems = Array.from(document.querySelectorAll(".inbox input[type='checkbox']"));
+  checkElems.forEach(checkElem => checkElem.addEventListener('click', handeRangeSelect));
 </script>
 </body>
 </html>
