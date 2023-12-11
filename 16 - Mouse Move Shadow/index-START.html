@@ -42,7 +42,7 @@
   const walk = 500;
   function handleMove(event) {
     const {clientWidth: width, clientHeight: height} = hero;
-    const {offsetX: x, offsetY: y} = event;
+    let {offsetX: x, offsetY: y} = event;
 
     if(this !== event.target) {
       x += event.target.offsetLeft;
