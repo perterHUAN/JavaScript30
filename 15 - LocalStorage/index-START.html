@@ -28,9 +28,8 @@
 
 <script>
   const addItems = document.querySelector('.add-items');
-  const item = addItems.querySelector("input[name='item']");
   const itemsList = document.querySelector('.plates');
-  let items = [];
+  let items = JSON.parse(localStorage.getItem('items2')) || [];
 
   function showItems() {
     // console.log("show item");
@@ -38,41 +37,40 @@
     // console.log(items)
     const html = items.map((item,idx) => {
       return `<li>
-        <input type=checkbox id=idx-${idx} data-idx=${idx} ${item.done ? 'checked': ''} onChange=handleChange(event) />
+        <input type=checkbox id=idx-${idx} data-idx=${idx} ${item.done ? 'checked': ''} />
         <label for=idx-${idx}>${item.text}</label>
       </li>
       `
     }).join('');
     // console.log(html)
     itemsList.innerHTML = html;
-
   }
-
+  function handleSaveItems() {
+    localStorage.setItem("items2", JSON.stringify(items));
+  }
+  // 代理 itemslist input
   function handleChange(event) {
+    if(!event.target.matches('input')) return;
+
     items[event.target.dataset.idx].done = event.target.checked;
     handleSaveItems();
     console.log(items);
   }
 
+  // 代理 form input
   function handleAddItem(event) {
     event.preventDefault();
-    items.push({text: item.value, done: false});
+    
+    const taskElem = this.querySelector("input[name='item']");
+    items.push({text: taskElem.value, done: false});
     showItems();
     handleSaveItems();
     this.reset();
   }
 
-  function handleLoadItems() {
-    items = JSON.parse(localStorage.getItem('items2')) || [];
-    showItems();
-  }
-
-  function handleSaveItems() {
-    localStorage.setItem('items2',JSON.stringify(items));
-  }
-
+  itemsList.addEventListener('click', handleChange);
   addItems.addEventListener('submit', handleAddItem);
-  window.addEventListener("load", handleLoadItems);
+  showItems();
   
 </script>
 
