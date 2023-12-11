@@ -183,6 +183,16 @@
     </li>
   </ul>
 <script>
+    const timeElems = Array.from(document.querySelectorAll("[data-time]"));
+    const totalSeconds = timeElems
+                            .map(elem => elem.dataset.time)
+                            .map(time => time.split(":").map(parseFloat))
+                            .map(([min, sec]) => min * 60 + sec)
+                            .reduce((pre,cur) => pre + cur);
+    const hour = Math.floor(totalSeconds / 3600);
+    const min = Math.floor((totalSeconds % 3600) / 60);
+    const sec = (totalSeconds % 3600) % 60;
+    console.log(hour, min, sec);
 </script>
 </body>
 </html>
