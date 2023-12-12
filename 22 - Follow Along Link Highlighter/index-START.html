@@ -28,6 +28,32 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const links = document.querySelectorAll("a[href]");
+    const highlight = document.createElement('span');
+    highlight.classList.add('highlight');
+    document.body.appendChild(highlight);
+
+    function highlightLink(event) {
+      console.log("mouse enter");
+      const rect = this.getBoundingClientRect();
+
+      const coords = {
+        x: window.scrollX + rect.left,
+        y: window.scrollY + rect.top,
+        width: rect.width,
+        height: rect.height
+      };
+
+      console.log(coords);
+
+      highlight.style.height = coords.height+"px";
+      highlight.style.width = coords.width+"px";
+      highlight.style.transform = `translate(${coords.x}px,${coords.y}px)`;
+
+    }
+    links.forEach(link => link.addEventListener("mouseenter", highlightLink));
+
+
   </script>
 </body>
 </html>
