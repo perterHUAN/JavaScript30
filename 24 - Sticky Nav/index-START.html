@@ -55,6 +55,17 @@
   </div>
 
 <script>
+  const nav = document.querySelector("nav");
+  let topOfNav = nav.offsetTop;
+  function handleStickNav() {
+    if(window.scrollY >= topOfNav) {
+      nav.classList.add('fix-nav');
+    }else {
+      nav.classList.remove('fix-nav');
+    }
+  }
+
+  window.addEventListener("scroll", handleStickNav)
 
 </script>
 

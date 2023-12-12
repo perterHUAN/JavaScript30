@@ -46,7 +46,7 @@ nav {
   top: 0;
   width: 100%;
   transition: all 0.5s;
-  position: relative;
+  position: sticky;
   z-index: 1;
 }
 
@@ -73,6 +73,14 @@ li.logo {
   font-weight: 600;
   font-size: 30px;
 }
+
+nav.fix-nav {
+  box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+}
+nav.fix-nav li.logo{
+  max-width: revert;
+}
+
 
 li.logo a {
   color: black;
