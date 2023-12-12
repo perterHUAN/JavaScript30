@@ -41,9 +41,25 @@
   }
 </style>
 
-<button></button>
+<button>This is a button</button>
 <script>
+  const divs = document.querySelectorAll("div");
+  const button = document.querySelector("button");
 
+  function handleClick(event) {
+    console.log(this.classList.value);
+  }
+
+  divs.forEach(div => div.addEventListener('click', handleClick, {
+    capture: true,
+    once: true
+  }));
+
+  button.addEventListener('click', () => {
+    console.log("click!!!!");
+  }, {
+    once: true
+  })
 </script>
 </body>
 </html>
