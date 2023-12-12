@@ -36,6 +36,52 @@
   const options = document.querySelectorAll('[type="range"], [name="text"]');
   const speakButton = document.querySelector('#speak');
   const stopButton = document.querySelector('#stop');
+
+
+  function populateVoices() {
+    voices = speechSynthesis.getVoices();
+    // .filter(v => v.lang.includes('en'));
+    for(let i = 0; i < voices.length; ++i) {
+      const opt = document.createElement("option");
+      opt.textContent = `${voices[i].name} ${voices[i].lang}`
+
+      if(voices[i].default) {
+        opt.textContent += " - DEFAULT"; 
+      }
+      opt.value = i;
+      voicesDropdown.appendChild(opt);
+    }
+  }
+
+  
+  populateVoices();
+  if(speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoices;
+  }
+
+  function speak() {
+    if(speechSynthesis.speaking) stopSpeak();
+
+    console.log("speak");
+    options.forEach(option => {
+      msg[option.name] = option.value;
+    });
+
+    msg.voice = voices[voicesDropdown.value];
+    
+    console.log(msg);
+    
+    speechSynthesis.speak(msg);
+  }
+
+  function stopSpeak() {
+    speechSynthesis.cancel();
+  }
+
+  speakButton.addEventListener('click', speak);
+  stopButton.addEventListener('click', stopSpeak);
+  
+
 </script>
 
 </body>
