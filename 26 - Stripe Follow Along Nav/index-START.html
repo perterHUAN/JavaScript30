@@ -221,7 +221,49 @@
 </style>
 
 <script>
+  const dropdownBackgroundElem = document.querySelector(".dropdownBackground");
+  const liElems = document.querySelectorAll(".cool > li");
+  const navElem = document.querySelector(".top");
+
+
+  function handleMoveEnter(event) {
+    this.classList.add("trigger-enter");
+    const dropdown = this.querySelector(".dropdown");
+    
+    setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150);
+
+    dropdownBackgroundElem.classList.add('open');
+
+    const rect1 = navElem.getBoundingClientRect();
+    const rect2 = dropdown.getBoundingClientRect();
+
+    // console.log(rect2.left, rect1.left);
+    const coords = {
+      width: rect2.width,
+      height: rect2.height,
+      y: rect2.top - rect1.top,
+      x: rect2.left - rect1.left
+    };
+
+
+    dropdownBackgroundElem.style.width = coords.width + 'px';
+    dropdownBackgroundElem.style.height = coords.height + 'px';
+    dropdownBackgroundElem.style.transform = `translate(${coords.x}px, ${coords.y}px)`;
+
+    
+  }
+  function handleMoveLeave(event) {
+    if(event.target !== this) return;
+    this.classList.remove('trigger-enter');
+    this.classList.remove('trigger-enter-active');
+
+    dropdownBackgroundElem.classList.remove('open');
+
+  }
+  liElems.forEach(liElem => liElem.addEventListener('mouseenter', handleMoveEnter));
+  liElems.forEach(liElem => liElem.addEventListener('mouseleave', handleMoveLeave));
 </script>
+  
 
 </body>
 </html>
