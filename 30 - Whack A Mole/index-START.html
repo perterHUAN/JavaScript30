@@ -38,6 +38,60 @@
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
 
+   
+
+  let currentScore = 0, playing = false;
+  const count = 10, hiddenTime = 700, nextTime = 600;
+
+  function updateScore() {
+    scoreBoard.textContent = currentScore;
+  }
+  function addScore() {
+    currentScore++;
+    updateScore();
+  }
+
+  function randomSelect() {
+    const idx = Math.floor(holes.length * Math.random());
+    // console.log("idx: ", idx, holes[idx]);
+    return holes[idx];
+  }
+
+  function moleShow(hole) {
+    // console.log(hole);
+    hole.classList.add("up");
+  }
+  function moleHidden(hole) {
+    hole.classList.remove("up");
+  }
+
+  function moleAction() {
+      const hole = randomSelect();
+      moleShow(hole);
+      setTimeout(() => moleHidden(hole), hiddenTime);
+  }
+
+  function startGame() {
+    if(playing) return;
+    playing = true;
+    currentScore = 0;
+    updateScore();
+
+
+    let cnt = 0;
+    function process() {
+      if(cnt  >= count) return playing=false;
+      ++cnt;
+      moleAction();
+      setTimeout(process, nextTime);
+    }
+    process();
+  }
+  
+
+
+  moles.forEach(mole => mole.addEventListener('click', addScore));
+
 </script>
 </body>
 </html>
