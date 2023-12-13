@@ -36,6 +36,38 @@
   </div>
 
 <script>
+  const itemsElem = document.querySelector(".items");
+
+  
+  let isDown = false;
+  let x, scrollLeft;
+  function handelMouseDown(event) {
+    isDown = true;
+    this.classList.add("active");
+    x = event.pageX - this.offsetLeft;
+    scrollLeft = this.scrollLeft;
+  }
+  function handleMouseUp(){
+    isDown = false;
+    this.classList.remove("active");
+  }
+  function handleMouseMove(){
+    if(!isDown)return;
+    let new_x = event.pageX - this.offsetLeft;
+    let walk  = (new_x - x) * 3;
+    this.scrollLeft = scrollLeft - walk;    
+  }
+  function handleMouseLeave(){
+    isDown = false;
+    this.classList.remove("active");
+  }
+
+  itemsElem.addEventListener("mousedown", handelMouseDown);
+  itemsElem.addEventListener("mouseup", handleMouseUp);
+  itemsElem.addEventListener("mousemove", handleMouseMove);
+  itemsElem.addEventListener("mouseleave", handleMouseLeave);
+  
+
 </script>
 
   </body>
